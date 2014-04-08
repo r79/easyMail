@@ -64,4 +64,8 @@ public class EasyMail {
 			throw new IOException("wasn't able to send mail");
 		}
 	}
+	
+	public String getTo() {
+		return to;
+	}
 }
