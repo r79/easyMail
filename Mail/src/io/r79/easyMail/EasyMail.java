@@ -1,5 +1,6 @@
 package io.r79.easyMail;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -26,15 +27,15 @@ public class EasyMail {
 		this.subject = "";
 		this.text = "";
 	}
-	
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	private void buildMail() throws MessagingException {
 		Properties properties = System.getProperties();
 
@@ -51,11 +52,16 @@ public class EasyMail {
 		message.setSubject(subject);
 		message.setText(text);
 	}
-	
-	public void buildAndSendMail() throws MessagingException {
-		if(!builded) {
-			buildMail();
+
+	public void buildAndSendMail() throws IOException {
+		try {
+			if (!builded) {
+				buildMail();
+
+			}
+			Transport.send(message);
+		} catch (MessagingException e) {
+			throw new IOException("wasn't able to send mail");
 		}
-		Transport.send(message);
 	}
 }
